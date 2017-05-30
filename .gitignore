@@ -1,0 +1,11 @@
+# pawncc test stuff
+*.amx
+*.lst
+*.asm
+*.xml
+
+# Sublime Text stuff
+*.sublime-workspace
+
+# Not redistribute includes
+includes/*
