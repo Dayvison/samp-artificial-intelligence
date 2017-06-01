@@ -35,24 +35,25 @@ enum AISolution{
 // Setup
 	stock AI:AI_Create(string:name[MAX_AI_NAME]);
 
-	stock AI:AI_CreateEx(string:name[MAX_AI_NAME],
-		type,                // AI_SetMoveType
-		speed,               // AI_SetMoveSpeed
-		bool:useMapAndreas,  // AI_ToogleUseMapAndreas
-		bool:useColAndreas,  // AI_ToogleUseColAndreas
-		bool:setAngle,       // AI_ToogleSetAngle
-		Float:radius,        // AI_SetRadius
-		Float:precision,     // AI_SetPrecision
-		Float:strength,      // AI_SetStrength
-		pathid,              // AI_SetRoute
-		Float:range,         // AI_SetDetectionRange
-		bool:checkObstacles, // 
-		bool:checkVision,    //
-		Float:health,        // AI_SetHealth
-		Float:armour,        // AI_SetArmour
-		AIPosture:posture,   // AI_SetPosture
-		solutions[AISolution]
+	stock AI:AI_CreateEX(
+		string:name[MAX_AI_NAME]
+		type                  = AI_DEFAULT_TYPE,
+		speed                 = AI_DEFAULT_SPEED,
+		bool:useMapAndreas    = AI_DEFAULT_USEMAPANDREAS,
+		bool:useColAndreas    = AI_DEFAULT_USECOLANDREAS,
+		bool:setAngle         = AI_DEFAULT_SETANGLE,
+		Float:radius          = AI_DEFAULT_RADIUS,
+		Float:precision       = AI_DEFAULT_PRECISION,
+		Float:strength        = AI_DEFAULT_STRENGTH,
+		pathid                = AI_DEFAULT_PATHID,
+		Float:range           = AI_DEFAULT_RANGE,
+		bool:checkObstacles   = AI_DEFAULT_CHECKOBSTACLES,
+		bool:checkVision      = AI_DEFAULT_CHECKVISION,
+		solutions[AISolution] = AI_DEFAULT_SOLUTIONS,
+		AIPosture:posture     = AI_DEFAULT_POSTURE
 	);
+
+	stock AI_IsValid(AI:id);
 
 	stock AI_Destroy(AI:id);
 
@@ -61,7 +62,7 @@ enum AISolution{
 
 	stock AI_GetFCNPCID(AI:id);
 
-	// Postura
+// Postura
 	stock AI_SetPosture(AI:id, AIPosture:posture);
 	stock AIPosture:AI_GetPosture(AI:id);
 
@@ -133,3 +134,7 @@ stock Float:AI_GetHealth(AI:id);
 // Colete
 stock AI_SetArmour(AI:id, Float:armour);
 stock Float:AI_GetArmour(AI:id);
+
+
+stock AI_SetTickRate(tickrate);
+stock AI_GetTickRate();

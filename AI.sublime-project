@@ -94,13 +94,25 @@
 	"folders":
 	[
 		{
-			"file_exclude_patterns": ["*.amx"],
-			"path": "./src"
+			"file_exclude_patterns":
+			[
+				"*.amx"
+			],
+			"path": "src"
 		},
 		{
-			"file_exclude_patterns": ["*.amx"],
-			"folder_exclude_patterns": ["src"],
+			"file_exclude_patterns":
+			[
+				"*.amx"
+			],
+			"folder_exclude_patterns":
+			[
+				"src"
+			],
 			"path": "."
+		},
+		{
+			"path": "../FCNPC"
 		}
 	],
 	"settings":
