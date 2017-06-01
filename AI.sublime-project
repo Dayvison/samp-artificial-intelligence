@@ -6,6 +6,8 @@
 			[
 				"pawncc",
 				"-iincludes",
+				"-;+",
+				"-(+",
 				"-D${project_path}",
 				"-o${file/\\.\\w+$/.amx/}",
 				"${file}"
@@ -20,6 +22,8 @@
 					[
 						"pawncc",
 						"-iincludes",
+						"-;+",
+						"-(+",
 						"-D${project_path}",
 						"-o${file/\\.\\w+$/.amx/}",
 						"${file}",
@@ -32,6 +36,8 @@
 					[
 						"pawncc",
 						"-iincludes",
+						"-;+",
+						"-(+",
 						"-D${project_path}",
 						"-o${file/\\.\\w+$/.amx/}",
 						"${file}",
@@ -44,6 +50,8 @@
 					[
 						"pawncc",
 						"-iincludes",
+						"-;+",
+						"-(+",
 						"-D${project_path}",
 						"-o${file/\\.\\w+$/.amx/}",
 						"${file}",
@@ -56,6 +64,8 @@
 					[
 						"pawncc",
 						"-iincludes",
+						"-;+",
+						"-(+",
 						"-D${project_path}",
 						"-o${file/\\.\\w+$/.amx/}",
 						"${file}",
@@ -68,6 +78,8 @@
 					[
 						"pawncc",
 						"-iincludes",
+						"-;+",
+						"-(+",
 						"-D${project_path}",
 						"-o${file/\\.\\w+$/.amx/}",
 						"${file}",
@@ -80,6 +92,8 @@
 					[
 						"pawncc",
 						"-iincludes",
+						"-;+",
+						"-(+",
 						"-D${project_path}",
 						"-o${file/\\.\\w+$/.amx/}",
 						"${file}",

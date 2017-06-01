@@ -57,7 +57,7 @@ enum AISolution{
 
 	stock AI_Destroy(AI:id);
 
-	stock AI_Spawn(AI:id, skinid, Float:posX, Float:posY, Float:posZ, Float:posA, interior, virtualworld);
+	stock AI_Spawn(AI:id, skinid, Float:x, Float:y, Float:z, Float:angle = AI_DEFAULT_ANGLE, interior = AI_DEFAULT_VIRTUAL_WORLD, virtualworld = AI_DEFAULT_INTERIOR);
 	stock AI_IsSpawned(AI:id);
 
 	stock AI_GetFCNPCID(AI:id);

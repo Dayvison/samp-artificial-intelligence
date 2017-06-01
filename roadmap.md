@@ -10,11 +10,11 @@
     - [x] AI_IsValid
     - [x] AI_Destroy
     - [x] AI_OnDestroy
-    - [ ] AI_Spawn
+    - [x] AI_Spawn
+    - [x] AI_IsSpawned
     - [ ] AI_OnSpawn
     - [ ] AI_Respawn
     - [ ] AI_OnRespawn
-    - [ ] AI_IsSpawned
     - [ ] AI_GetFCNPCID
     - [ ] AI_OnDeath
 - [ ] **Postura**

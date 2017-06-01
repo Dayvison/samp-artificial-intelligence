@@ -46,13 +46,14 @@
 #endif
 #define _AI_core_inc
 
+#define __linux
+#include <samp/a_samp>
+#include <plugins/streamer>
+#include <plugins/FCNPC>
+#include <plugins/colandreas>
 
-#include <streamer>
-#include <FCNPC>
-#include <ColAndreas>
-
-#include <YSI\y_iterate>
-#include <YSI\y_hooks>
+#include <YSI/y_iterate>
+#include <YSI/y_hooks>
 #include <SAM/3DTryg>
 
 /*================================================
@@ -132,6 +133,18 @@ const AI:INVALID_AI_ID = AI:-1;
 	#define AI_DEFAULT_POSTURE        (PASSIVE)
 #endif
 
+#if !defined AI_DEFAULT_ANGLE
+	#define AI_DEFAULT_ANGLE        (0.0)
+#endif
+
+#if !defined AI_DEFAULT_VIRTUAL_WORLD
+	#define AI_DEFAULT_VIRTUAL_WORLD        (0)
+#endif
+
+#if !defined AI_DEFAULT_INTERIOR
+	#define AI_DEFAULT_INTERIOR        (0)
+#endif
+
 #if !defined DEFAULT_AI_TICK_RATE
 	#define DEFAULT_AI_TICK_RATE        (1000)
 #endif
@@ -158,7 +171,7 @@ static enum E_AI_DATA {
 
 	// Movimento
 	AI_Type,                     /// Movimento executado pelo AI (MOVE_TYPE_AUTO, MOVE_TYPE_WALK, MOVE_TYPE_RUN, MOVE_TYPE_SPRINT, MOVE_TYPE_DRIVE)
-	AI_Speed,                    /// Velocidade de movimento do AI (MOVE_SPEED_AUTO, MOVE_SPEED_WALK, MOVE_SPEED_RUN, MOVE_SPEED_SPRINT)
+	Float:AI_Speed,              /// Velocidade de movimento do AI (MOVE_SPEED_AUTO, MOVE_SPEED_WALK, MOVE_SPEED_RUN, MOVE_SPEED_SPRINT)
 	bool:AI_UseMapAndreas,       /// Se irá usar a correção do eixo Z com MapAndreas oferecido pelo plugin FCNPC ao movimentar
 	bool:AI_UseColAndreas,       /// Se irá usar a correção do eixo Z com ColAndreas feito em pawn
 	bool:AI_SetAngle,            /// Se o FCNPC irá corrigir o angulo do AI, quando ele se movimentar
@@ -173,7 +186,7 @@ static enum E_AI_DATA {
 	Float:AI_Range,              /// Area de detecção de um objetivo pelo NPC(Streamer_Area)
 	bool:AI_CheckObstacles,      /// Se para detecção de um objetivo, irá usar ColAndreas para checar se existe obstáculos no seu caminho, impossibilitando o AI de alcançar o objetivo
 	bool:AI_CheckVision,         /// Se para detecção de um objetivo, irá checar se o objetivo é visto pelo AI (IsElementOnFakeScreen)
-	AI_Solutions[AISolution],    /// Soluções automáticas para problemas encontrados durante a perseguição de um objetivo
+	//AI_Solutions[AISolution],    /// Soluções automáticas para problemas encontrados durante a perseguição de um objetivo
 	
 	AIPosture:AI_Posture,        /// Postura adotada pelo AI [AIPosture](#AIPosture)
 	
@@ -200,6 +213,29 @@ forward AI_OnDestroy(AI:id);
 forward AI_OnSpawn(AI:id);
 forward AI_OnRespawn(AI:id);
 forward AI_OnDeath(AI:id, killerid, weaponid);
+
+forward AI:AI_Create(string:name[MAX_AI_NAME]);
+forward AI:AI_CreateEX(
+	string:name[MAX_AI_NAME],
+	type                  = AI_DEFAULT_TYPE,
+	Float:speed           = AI_DEFAULT_SPEED,
+	bool:useMapAndreas    = AI_DEFAULT_USEMAPANDREAS,
+	bool:useColAndreas    = AI_DEFAULT_USECOLANDREAS,
+	bool:setAngle         = AI_DEFAULT_SETANGLE,
+	Float:radius          = AI_DEFAULT_RADIUS,
+	Float:precision       = AI_DEFAULT_PRECISION,
+	Float:strength        = AI_DEFAULT_STRENGTH,
+	pathid                = AI_DEFAULT_PATHID,
+	Float:range           = AI_DEFAULT_RANGE,
+	bool:checkObstacles   = AI_DEFAULT_CHECKOBSTACLES,
+	bool:checkVision      = AI_DEFAULT_CHECKVISION,
+	//solutions[AISolution] = AI_DEFAULT_SOLUTIONS,
+	AIPosture:posture     = AI_DEFAULT_POSTURE
+);
+forward AI_IsValid(AI:id);
+forward AI_Destroy(AI:id);
+forward AI_Spawn(AI:id, skinid, Float:x, Float:y, Float:z, Float:angle = AI_DEFAULT_ANGLE, interior = AI_DEFAULT_VIRTUAL_WORLD, virtualworld = AI_DEFAULT_INTERIOR);
+forward AI_IsSpawned(AI:id);
 
 /*================================================
 =    ____ _  _ _  _ ____ ___ _ ____ _  _ ____    =
@@ -253,9 +289,9 @@ stock AI:AI_Create(string:name[MAX_AI_NAME])
  *                 + FCNP_Create falhou
  */
 stock AI:AI_CreateEX(
-	string:name[MAX_AI_NAME]
+	string:name[MAX_AI_NAME],
 	type                  = AI_DEFAULT_TYPE,
-	speed                 = AI_DEFAULT_SPEED,
+	Float:speed           = AI_DEFAULT_SPEED,
 	bool:useMapAndreas    = AI_DEFAULT_USEMAPANDREAS,
 	bool:useColAndreas    = AI_DEFAULT_USECOLANDREAS,
 	bool:setAngle         = AI_DEFAULT_SETANGLE,
@@ -266,7 +302,7 @@ stock AI:AI_CreateEX(
 	Float:range           = AI_DEFAULT_RANGE,
 	bool:checkObstacles   = AI_DEFAULT_CHECKOBSTACLES,
 	bool:checkVision      = AI_DEFAULT_CHECKVISION,
-	solutions[AISolution] = AI_DEFAULT_SOLUTIONS,
+	//solutions[AISolution] = AI_DEFAULT_SOLUTIONS,
 	AIPosture:posture     = AI_DEFAULT_POSTURE
 )
 {
@@ -300,7 +336,7 @@ stock AI:AI_CreateEX(
 	AI_Data[id][AI_Range]          = range;
 	AI_Data[id][AI_CheckObstacles] = checkObstacles;
 	AI_Data[id][AI_CheckVision]    = checkVision;
-	AI_Data[id][AI_Solutions]      = solutions;
+	//AI_Data[id][AI_Solutions]      = solutions;
 	AI_Data[id][AI_Posture]        = posture;
 
 	CallLocalFunction("AI_OnCreate", "d", _:id);
@@ -322,7 +358,7 @@ stock AI:AI_CreateEX(
 stock AI_IsValid(AI:id)
 {
 	// O id é inválido
-	if(!UCMP(id, 0, MAX_AIS))
+	if(!(0 <= _:id < MAX_AIS))
 		return 0;
 
 	// O id não existe
@@ -348,7 +384,7 @@ stock AI_IsValid(AI:id)
 stock AI_Destroy(AI:id)
 {
 	// O id é inválido
-	if(!UCMP(id, 0, MAX_AIS))
+	if(!(0 <= _:id < MAX_AIS))
 		return 0;
 
 	// O id não existe
@@ -357,11 +393,13 @@ stock AI_Destroy(AI:id)
 
 	static const AI_DATA_CLEAN[E_AI_DATA];
 
-	AI_DATA[id] = AI_DATA_CLEAN;
+	AI_Data[id] = AI_DATA_CLEAN;
 
 	CallLocalFunction("AI_OnDestroy", "d", _:id);
 
 	SetTimerEx("@AI_IterClear", 1, false, "d", _:id);
+
+	// TODO: Destruir areas
 
 	return 1;
 }
@@ -375,13 +413,87 @@ stock AI_Destroy(AI:id)
 	Iter_Remove(AIs, id);
 	Iter_Clear(AIsPlayers<id>);
 	
-	foreach(new playerid: Players)
+	foreach(new playerid: Player)
 	{
 		if(Iter_Contains(PlayerAIs<playerid>, id))
 			Iter_Remove(PlayerAIs<playerid>, id);
 	}
 }
 
+/**
+ * Spawna um AI
+ *
+ * @param      AI            ID do AI
+ * @param      skinid        ID da skin para spawnar
+ * @param      x             Posição X
+ * @param      y             Posição Y
+ * @param      z             Posição Z
+ * @param      angle         Ângulo
+ * @param      interior      ID do interior
+ * @param      virtualworld  ID do virtual world
+ *
+ * @date       19:04 01/06/2017
+ * @author     Dayvison
+ *
+ * @return     - `1` Sucesso
+ *             - `0` caso ocorra algum erro:
+ *                 + O id é inválido
+ *                 + O id não existe
+ *                 + Skin inválida
+ *                 + FCNPC_Spawn erro(O player já está spawnado)
+ */
+stock AI_Spawn(AI:id, skinid, Float:x, Float:y, Float:z, Float:angle = AI_DEFAULT_ANGLE, interior = AI_DEFAULT_INTERIOR, virtualworld = AI_DEFAULT_VIRTUAL_WORLD)
+{
+	// O id é inválido
+	if(!(0 <= _:id < MAX_AIS))
+		return 0;
+
+	// O id não existe
+	if(!Iter_Contains(AIs, _:id))
+		return 0;
+
+	// Skin inválida
+	if(NOT_IN_RANGE(skinid, 0, 311+1))
+		return 0;
+
+	new npcid = AI_Data[id][AI_FCNPCID];
+
+	if(!FCNPC_Spawn(npcid, skinid, x, y, z))
+		return 0;
+
+	FCNPC_SetAngle(npcid, angle);
+	FCNPC_SetVirtualWorld(npcid, virtualworld);
+	FCNPC_SetInterior(npcid, interior);
+
+	return 1;
+}
+
+/**
+ * Determina se um AI está spawnado
+ *
+ * @param      id    ID do AI
+ *
+ * @date       19:40 01/06/2017
+ * @author     Dayvison
+ *
+ * @return     - `1` Esta spawnado
+ *             - `0` Não esta spawnado
+ *             - `0` caso ocorra algum erro:
+ *                 + O id é inválido
+ *                 + O id não existe
+ */
+stock AI_IsSpawned(AI:id)
+{
+	// O id é inválido
+	if(!(0 <= _:id < MAX_AIS))
+		return 0;
+
+	// O id não existe
+	if(!Iter_Contains(AIs, _:id))
+		return 0;
+
+	return FCNPC_IsSpawned(AI_Data[id][AI_FCNPCID]);
+}
 /*================================================
 =  ____ ____ _    _    ___  ____ ____ _  _ ____  =
 =  |    |__| |    |    |__] |__| |    |_/  [__   =
@@ -429,3 +541,12 @@ hook OnPlayerLeaveDynArea(playerid, STREAMER_TAG_AREA areaid)
 =                                                =
 *================================================*/
 
+@ai_func_in();@ai_func_in()
+{
+	AI_Create("");
+	AI_CreateEX("");
+	AI_IsValid(INVALID_AI_ID);
+	AI_Destroy(INVALID_AI_ID);
+	AI_Spawn(INVALID_AI_ID, 0, 0.0, 0.0, 0.0);
+	AI_IsSpawned(INVALID_AI_ID);
+}
