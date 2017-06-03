@@ -3,6 +3,9 @@
     + [x] AIs
     + [ ] PlayerAIs
     + [ ] AIsPlayers
+- [x] **API FCNPC**
+    + [x] FCNPC_IsAI
+    + [x] FCNPC_GetAIID
 - [ ] **Setup de AI's**
     - [x] AI_Create
     - [x] AI_CreateEX
@@ -12,43 +15,44 @@
     - [x] AI_OnDestroy
     - [x] AI_Spawn
     - [x] AI_IsSpawned
-    - [ ] AI_OnSpawn
-    - [ ] AI_Respawn
-    - [ ] AI_OnRespawn
-    - [ ] AI_GetFCNPCID
-    - [ ] AI_OnDeath
-- [ ] **Postura**
-    + [ ] AI_SetPosture
-    + [ ] AI_GetPosture
-- [ ] **Movimento**
-    - [ ] AI_SetMoveInfo
-    - [ ] AI_GetMoveInfo
-    - [ ] **Tipo de movimento**
-        + [ ] AI_SetMoveType
-        + [ ] AI_GetMoveType
-    - [ ] **Velocidade**
-        + [ ] AI_SetMoveSpeed
-        + [ ] AI_GetMoveSpeed
-    - [ ] **MapAndreas**
-        + [ ] AI_ToogleUseMapAndreas
-        + [ ] AI_IsMapAndreasUsed
-    - [ ] **ColAndreas**
-        + [ ] AI_ToogleUseColAndreas
-        + [ ] AI_IsColAndreasUsed
-    - [ ] **Corrigir angulo**
-        + [ ] AI_ToogleSetAngle
-        + [ ] AI_IsSetAngle
-    - [ ] **Raio**
-        + [ ] AI_SetRadius
-        + [ ] AI_GetRadius
+    - [x] AI_OnSpawn
+    - [x] AI_Respawn
+    - [x] AI_OnRespawn
+    - [x] AI_GetFCNPCID
+    - [x] AI_OnDeath
+    - [ ] AI_OnKill
+- [x] **Postura**
+    + [x] AI_SetPosture
+    + [x] AI_GetPosture
+- [x] **Movimento**
+    - [x] AI_SetMoveInfo
+    - [x] AI_GetMoveInfo
+    - [x] **Tipo de movimento**
+        + [x] AI_SetMoveType
+        + [x] AI_GetMoveType
+    - [x] **Velocidade**
+        + [x] AI_SetMoveSpeed
+        + [x] AI_GetMoveSpeed
+    - [x] **MapAndreas**
+        + [x] AI_ToogleUseMapAndreas
+        + [x] AI_IsMapAndreasUsed
+    - [x] **ColAndreas**
+        + [x] AI_ToogleUseColAndreas
+        + [x] AI_IsColAndreasUsed
+    - [x] **Corrigir angulo**
+        + [x] AI_ToogleSetAngle
+        + [x] AI_IsSetAngle
+    - [x] **Raio**
+        + [x] AI_SetRadius
+        + [x] AI_GetRadius
 
-- [ ] **Combate**
-    - [ ] Precisão
-        + [ ] AI_SetPrecision
-        + [ ] AI_GetPrecision
-    - [ ] Força
-        + [ ] AI_SetStrength
-        + [ ] AI_GetStrength
+- [x] **Combate**
+    - [x] Precisão
+        + [x] AI_SetPrecision
+        + [x] AI_GetPrecision
+    - [x] Força
+        + [x] AI_SetStrength
+        + [x] AI_GetStrength
 
 - [ ] **Alvos**
     - [ ] AI_SetTarget

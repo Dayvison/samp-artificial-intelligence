@@ -32,6 +32,9 @@ enum AITrouble{
 enum AISolution{
 
 };
+stock FCNPC_IsAI(npcid);
+stock FCNPC_GetAIID(npcid);
+
 // Setup
 	stock AI:AI_Create(string:name[MAX_AI_NAME]);
 
@@ -67,28 +70,28 @@ enum AISolution{
 	stock AIPosture:AI_GetPosture(AI:id);
 
 // Movimento
-	stock AI_SetMoveInfo(AI:id, type = MOVE_TYPE_AUTO, Float:speed = MOVE_SPEED_AUTO, bool:useMapAndreas = false, bool:useColAndreas = false, Float:radius = 0.0, bool:setAngle = true);
-	stock AI_GetMoveInfo(AI:id, &type, &Float:speed, &bool:useMapAndreas, &bool:useColAndreas, &Float:radius, &bool:setAngle);
+	stock AI_SetMoveInfo(AI:id, movetype = MOVE_TYPE_AUTO, Float:movespeed = MOVE_SPEED_AUTO, bool:useMapAndreas = false, bool:useColAndreas = false, bool:setAngle = true, Float:radius = 0.0);
+	stock AI_GetMoveInfo(AI:id, &movetype, &Float:movespeed, &bool:useMapAndreas, &bool:useColAndreas, &bool:setAngle, &Float:radius);
 
 	// Tipo de movimento
 	stock AI_SetMoveType(AI:id, type);
 	stock AI_GetMoveType(AI:id);
 
 	// Velocidade
-	stock AI_SetMoveSpeed(AI:id, speed);
-	stock AI_GetMoveSpeed(AI:id);
+	stock AI_SetMoveSpeed(AI:id, Float:speed);
+	stock Float:AI_GetMoveSpeed(AI:id);
 
 	// MapAndreas
 	stock AI_ToogleUseMapAndreas(AI:id, bool:toogle);
-	stock AI_IsMapAndreasUsed(AI:id);
+	stock bool:AI_IsMapAndreasUsed(AI:id);
 
 	// ColAndreas
 	stock AI_ToogleUseColAndreas(AI:id, bool:toogle);
-	stock AI_IsColAndreasUsed(AI:id);
+	stock bool:AI_IsColAndreasUsed(AI:id);
 
 	// Corrigir angulo
 	stock AI_ToogleSetAngle(AI:id, bool:toogle);
-	stock AI_IsSetAngle(AI:id);
+	stock bool:AI_IsSetAngle(AI:id);
 
 	// Raio
 	stock AI_SetRadius(AI:id, Float:radius);
