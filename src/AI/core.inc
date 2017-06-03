@@ -141,6 +141,8 @@
 
 const AI:INVALID_AI_ID = AI:-1;
 #define INVALID_MOVE_TYPE -10
+#define AI_STREAMER_IDENTIFIER 3657982
+
 #if !defined AI_QUIET
 	#define AI_Error(%0) printf("[AI error]: "%0)
 	#define AI_Warning(%0) printf("[AI warning]: "%0)
@@ -263,6 +265,8 @@ static enum E_AI_DATA {
 	Float:AI_Health,             /// Vida padrão do AI ao se spawnar
 	Float:AI_Armour,             /// Colete padrão do AI ao se spawnar
 
+
+	STREAMER_TAG_AREA AI_DynArea
 	// Objetivos
 };
 
@@ -527,8 +531,19 @@ stock AI:AI_CreateEX(
 	//AI_Data[id][AI_Solutions]      = solutions;
 	AI_Data[id][AI_Posture]        = posture;
 
-	CallLocalFunction("AI_OnCreate", "d", _:id);
+	new STREAMER_TAG_AREA area = CreateDynamicCircle(0.0, 0.0, range);
+	AttachDynamicAreaToPlayer(area, ID);
 
+	new arr[2];
+	arr[0] = AI_STREAMER_IDENTIFIER;
+	arr[1] = _:id;
+
+	Streamer_SetArrayData(STREAMER_TYPE_AREA, area, E_STREAMER_EXTRA_ID, arr);
+
+	AI_Data[id][AI_DynArea] = area;
+
+	CallLocalFunction("AI_OnCreate", "d", _:id);
+	
 	return id;
 }
 
@@ -640,7 +655,7 @@ stock AI_Spawn(AI:id, skinid, Float:x, Float:y, Float:z, Float:angle = AI_DEFAUL
 		return 0;
 
 	// Skin inválida
-	if(NOT_IN_RANGE(skinid, 0, 311+1))
+	if(!(0 <= skinid <= 311))
 		return 0;
 
 	new npcid = AI_Data[id][AI_FCNPCID];
@@ -1384,18 +1399,47 @@ hook OnScriptInit()
 	{
 		foreach(new playerid: AIsPlayers<ai>)
 		{
-			
+			// TODO: algoritimo de detecção
 		}
 	}
 }
 
 hook OnPlayerEnterDynArea(playerid, STREAMER_TAG_AREA areaid)
 {
+	// Quando se anexa uma area a um player é chamada para ele como se ele tivesse entrado na area
 
+	new attachedid = Streamer_GetIntData(STREAMER_TYPE_AREA, areaid, E_STREAMER_ATTACHED_PLAYER);
+	if(playerid == attachedid)
+		return;
+
+	new arr[2];
+
+	Streamer_GetArrayData(STREAMER_TYPE_AREA, areaid, E_STREAMER_EXTRA_ID, arr);
+
+	if(arr[0] != AI_STREAMER_IDENTIFIER)
+		return;
+
+	new AI:id = AI:arr[1];
+
+	// TODO: criar objetivos
+
+Iterator:PlayerAIs<MAX_PLAYERS, MAX_AIS>  /// AI's seguindo o player
+Iterator:<MAX_AIS, MAX_PLAYERS> /// Players na área de detecção do AI
+
+	Iter_Add(AIsPlayers<_:id>, playerid);
 }
 hook OnPlayerLeaveDynArea(playerid, STREAMER_TAG_AREA areaid)
 {
+	new arr[2];
 
+	Streamer_GetArrayData(STREAMER_TYPE_AREA, areaid, E_STREAMER_EXTRA_ID, arr);
+
+	if(arr[0] != AI_STREAMER_IDENTIFIER)
+		return;
+
+	new AI:id = AI:arr[1];
+
+	// TODO: remover objetivos
 }
 
 @ai_func_in();@ai_func_in()

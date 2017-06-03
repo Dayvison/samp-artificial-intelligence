@@ -141,3 +141,7 @@ stock Float:AI_GetArmour(AI:id);
 
 stock AI_SetTickRate(tickrate);
 stock AI_GetTickRate();
+
+// Barulho
+stock AI_SendNoise(Float:x, Float:y, Float:z, virtualworld, interior, Float:level);
+forward AISolution:AI_OnListenNoise(AI:id, Float:newlevel, Float:oldlevel, Float:x, Float:y, Float:z);

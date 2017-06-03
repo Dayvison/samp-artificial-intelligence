@@ -1,3 +1,16 @@
+- [ ] Algoritimos
+    + [ ] Detecção de ruidos
+        * [ ] Andar/Correr
+        * [ ] Atirar
+        * [ ] Falar
+        * [ ] Motor de veiculos/Aceleração
+        * [ ] Fogo/Explosões
+        * [ ] Pular/Agaichar
+        * [ ] Nadar, Entrar na Agua
+        * [ ] Estar cansado
+        * [ ] Levar dano
+        * [ ] Queda
+
 - [ ] Opções pré-compiler
     + [ ] habilitar/desabilitar mapAndreas
     + [ ] habilitar/desabilitar colAndreas
@@ -11,6 +24,8 @@
 - [x] **API FCNPC**
     + [x] FCNPC_IsAI
     + [x] FCNPC_GetAIID
+
+# Funções
 - [ ] **Setup de AI's**
     - [x] AI_Create
     - [x] AI_CreateEX
@@ -88,3 +103,23 @@
 - [ ] **Colete**
     - [ ] AI_SetArmour
     - [ ] AI_GetArmour
+
+- [ ] **Barulho**
+    + [ ] AI_SendNoise
+    + [ ] AI_OnListenNoise
+    + [ ] AI_CompareNoises
+
+> Passos para detectar sons: 
+> * Método 1:
+>     * Gerar som um por um(in game)
+>     * Gravar de diferentes posições(1.0,10.0,20.0,30.0)
+>     * Encontrar algum software que pega o nivel mais alto do som
+>     * Comparar os niveis dos ruidos
+>     * Então finalmente cataloga-los em um array no pawn
+> * Método 2:
+>     * Abrir arquivos do jogo, e pegar todos os ruidos
+>     * Encontrar algum software que pega o nivel mais alto do som
+>     * Comparar os niveis dos ruidos
+>     * Descobrir como GTA sa calcula o som(distancia)
+>     * Então finalmente cataloga-los em um array no pawn
+>
