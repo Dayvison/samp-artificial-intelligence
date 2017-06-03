@@ -9,3 +9,8 @@
 
 # Not redistribute includes
 includes/*
+
+# Private scripts
+army/
+body-guard/
+zombies/

@@ -14,6 +14,7 @@
 ## API:
  * **Definitions:**
  	- INVALID_AI_ID
+ 	- INVALID_MOVE_TYPE
  * **Callbacks:**
  	- AI_OnCreate
  	- AI_OnDestroy
@@ -35,6 +36,26 @@
  	- AI_IsSpawned
  	- AI_Respawn
  	- AI_GetFCNPCID
+	- AI_SetPosture
+	- AI_GetPosture
+	- AI_SetMoveInfo
+	- AI_GetMoveInfo
+	- AI_SetMoveType
+	- AI_GetMoveType
+	- AI_SetMoveSpeed
+	- AI_GetMoveSpeed
+	- AI_ToggleUseMapAndreas
+	- AI_IsMapAndreasUsed
+	- AI_ToggleUseColAndreas
+	- AI_IsColAndreasUsed
+	- AI_ToggleSetAngle
+	- AI_IsSetAngle
+	- AI_SetRadius
+	- AI_GetRadius
+	- AI_SetPrecision
+	- AI_GetPrecision
+	- AI_SetStrength
+	- AI_GetStrength
  * **Variables:**
 	- 
  * **Commands:**
@@ -350,6 +371,7 @@ forward bool:AI_IsSetAngle(AI:id);
 forward Float:AI_GetRadius(AI:id);
 forward Float:AI_GetPrecision(AI:id);
 forward Float:AI_GetStrength(AI:id);
+
 /*================================================
 =    ____ _  _ _  _ ____ ___ _ ____ _  _ ____    =
 =    |___ |  | |\ | |     |  | |  | |\ | [__     =
@@ -1325,6 +1347,7 @@ stock Float:AI_GetStrength(AI:id)
 
 	return AI_Data[id][AI_Strength];
 }
+
 /*================================================
 =  ____ ____ _    _    ___  ____ ____ _  _ ____  =
 =  |    |__| |    |    |__] |__| |    |_/  [__   =
@@ -1374,21 +1397,6 @@ hook OnPlayerLeaveDynArea(playerid, STREAMER_TAG_AREA areaid)
 {
 
 }
-/*================================================
-=     ____ ____ _  _ _  _ ____ _  _ ___  ____    =
-=     |    |  | |\/| |\/| |__| |\ | |  \ [__     =
-=     |___ |__| |  | |  | |  | | \| |__/ ___]    =
-=                                                =
-*================================================*/
-
-
-
-/*================================================
-=                   ____ ___  _                  =
-=                   |__| |__] |                  =
-=                   |  | |    |                  =
-=                                                =
-*================================================*/
 
 @ai_func_in();@ai_func_in()
 {

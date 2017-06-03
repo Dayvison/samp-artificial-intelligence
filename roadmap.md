@@ -1,3 +1,8 @@
+- [ ] Opções pré-compiler
+    + [ ] habilitar/desabilitar mapAndreas
+    + [ ] habilitar/desabilitar colAndreas
+    + [ ] habilitar/desabilitar y_iterate
+    + [ ] detectar yhooks, caso não esteja incluida fazer hooks manualmente
 - [x] **Estrutura dos AI's**
 - [ ] **Iteratores**
     + [x] AIs
