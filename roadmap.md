@@ -1,4 +1,6 @@
 - [ ] Algoritimos
+    + [ ] Perseguição
+        * 
     + [ ] Detecção de ruidos
         * [ ] Andar/Correr
         * [ ] Atirar
@@ -12,10 +14,7 @@
         * [ ] Queda
 
 - [ ] Opções pré-compiler
-    + [ ] habilitar/desabilitar mapAndreas
-    + [ ] habilitar/desabilitar colAndreas
-    + [ ] habilitar/desabilitar y_iterate
-    + [ ] detectar yhooks, caso não esteja incluida fazer hooks manualmente
+    + [ ] Alterar entre mapAndreas e colAndreas
 - [x] **Estrutura dos AI's**
 - [ ] **Iteratores**
     + [x] AIs
@@ -26,7 +25,7 @@
     + [x] FCNPC_GetAIID
 
 # Funções
-- [ ] **Setup de AI's**
+- [x] **Setup de AI's**
     - [x] AI_Create
     - [x] AI_CreateEX
     - [x] AI_OnCreate
@@ -40,7 +39,7 @@
     - [x] AI_OnRespawn
     - [x] AI_GetFCNPCID
     - [x] AI_OnDeath
-    - [ ] AI_OnKill
+    - [x] AI_OnKill
 - [x] **Postura**
     + [x] AI_SetPosture
     + [x] AI_GetPosture

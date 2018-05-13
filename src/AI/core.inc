@@ -21,6 +21,7 @@
  	- AI_OnSpawn
  	- AI_OnRespawn
  	- AI_OnDeath
+ 	- AI_OnKill
  * **Enums:**
  	- AIPosture
  * **Tags:**
@@ -337,14 +338,28 @@ forward AI_OnRespawn(AI:id);
  *
  * @param      id        ID do AI
  * @param      killerid  ID do assassino
- * @param      weaponid  ID da arma/rasão do assassinato
+ * @param      reason  ID da arma/razão do assassinato
  *
  * @date       23:15 02/06/2017
  * @author     Dayvison
  *
  * @return     --
  */
-forward AI_OnDeath(AI:id, killerid, weaponid);
+forward AI_OnDeath(AI:id, killerid, reason);
+
+/**
+ * Chamada quando um AI acaba de morrer
+ *
+ * @param      id        ID do AI
+ * @param      killerid  ID do assassino
+ * @param      reason  ID da arma/razão do assassinato
+ *
+ * @date       17:58 13/05/2018
+ * @author     Dayvison
+ *
+ * @return     --
+ */
+forward AI_OnKill(AI:id, killerid, reason);
 
 
 // Evitar avisos de forçar tag
@@ -1374,18 +1389,35 @@ hook FCNPC_OnSpawn(npcid)
 {
 	if(FCNPC_IsAI(npcid))
 		CallLocalFunction("AI_OnSpawn", "d", _:FCNPC_GetAIID(npcid));
+
+	return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
 hook FCNPC_OnRespawn(npcid)
 {
 	if(FCNPC_IsAI(npcid))
 		CallLocalFunction("AI_OnRespawn", "d", _:FCNPC_GetAIID(npcid));
+
+	return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
 hook FCNPC_OnDeath(npcid, killerid, weaponid)
 {
 	if(FCNPC_IsAI(npcid))
 		CallLocalFunction("AI_OnDeath", "ddd", _:FCNPC_GetAIID(npcid), killerid, weaponid);
+
+	return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
+hook OnPlayerDeath(playerid, killerid, reason)
+{
+	if(FCNPC_IsValid(killerid))
+	{
+		if(FCNPC_IsAI(killerid))
+			CallLocalFunction("AI_OnKill", "ddd", _:FCNPC_GetAIID(npcid), killerid, reason);
+	}
+
+	return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
 hook OnScriptInit()
